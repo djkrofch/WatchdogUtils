@@ -1,3 +1,10 @@
+# ------- Load dependencies
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import os
+
+
 # parseAndReadMetData:
 # Summary: Parses file name to gather metadata, appends to read in pandas dataframe
 #
