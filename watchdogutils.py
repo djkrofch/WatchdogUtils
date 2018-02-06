@@ -2,6 +2,9 @@
 import pandas as pd
 import numpy as np
 import seaborn as sns
+import matplotlib.colors
+import matplotlib.pyplot as plt
+
 import os
 
 
@@ -10,7 +13,7 @@ import os
 #
 # Inputs  - fname (full file path of met data file)
 # Returns - df    (pandas dataframe with logger location and station ID)
-def parseAndReadMetData(fname):
+def parseAndReadMetData(dataDir, fname):
     location       = fname.split('_')[0]
     stationNum     = fname.split('_')[1]
     df             = pd.read_csv(dataDir + fname, sep = '\t', skiprows=2)
@@ -23,9 +26,9 @@ def parseAndReadMetData(fname):
 # time variables.
 #
 # Inputs  - df (pandas dataframe with logger location and station ID
-# Returns - metdf (pandas dataframe with appended time stamp information)
+# Returns - df (pandas dataframe with appended time stamp information)
 def prepareTimeStamps(df):
-    df.rename(columns = {metdf.columns[0]:'Timestamp'}, inplace = True)
+    df.rename(columns = {df.columns[0]:'Timestamp'}, inplace = True)
     df.index    = pd.to_datetime(df['Timestamp'])
     df['doy']   = df.index.dayofyear
     df['month'] = df.index.month
@@ -373,7 +376,7 @@ def VWCSummaryPlot(df):
     ax2.set_xlabel('Month')
     
     # Set both VWC lims to same max value
-    ymax = max(metdf_a.VWCC_f.max(), metdf_a.VWCD_f.max()) + 2
+    ymax = max(df.VWCC_f.max(), df.VWCD_f.max()) + 2
     
     ax1.set_ylim(0,ymax)
     ax2.set_ylim(0,ymax)
